@@ -1,14 +1,25 @@
+/* rem gives you the ability to define your font sizes or margins and paddings relative to the root font-size
+basically so if you change that root font size anything using a rem will change accordingly aswell
+https://css-tricks.com/rem-global-em-local/
+this is very common thing that alot of people use instead of pixels for example in this situation
+so the way we will set this up is we will use our root selector and that basically becomes our html tag */
 
 :root {
   background-color: #ecf5ff;
+  /* the sefault size in most browsers is 16 pixels 
+  so 62.5% of 16 is 10 pixels so now the root font size will be 1o pixels
+  so anything we reference with rem will based on 10 pixels */
   font-size: 62.5%;
 }
 
 * {
+  /* with border-box this means is if i add a border to a box its going to include
+  the width of that border and the calculated size of that box */
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
+  /* text color off black */
   color: #333;
 }
 
@@ -20,6 +31,7 @@ h4 {
 }
 
 h1 {
+  /* this will be 5.4 * 10 pixels so 54 pixels */
   font-size: 5.4rem;
   color: #56a5eb;
   margin-bottom: 5rem;
@@ -41,18 +53,27 @@ h3 {
   font-weight: 500;
 }
 
-/* UTILITIES */
-
+/* UTILITY Classes*/
+/* basically we want to center of all of stuff on the screen */
 .container {
   width: 100vw;
   height: 100vh;
+  /* these 3 lines allow us to center everything horizontally and vertically */
   display: flex;
   justify-content: center;
   align-items: center;
   max-width: 80rem;
   margin: 0 auto;
+  padding: 2rem;
 }
 
+/* child of container */
+.container > * {
+  width: 100%;
+}
+
+/* flex box defualt is hozizontal here we are changing that so it stacks thing on top of each other 
+vertically instead of horizontally*/
 .flex-column {
   display: flex;
   flex-direction: column;
@@ -76,6 +97,7 @@ h3 {
 }
 
 /* BUTTONS */
+
 .btn {
   font-size: 1.8rem;
   padding: 1rem 0;
@@ -83,6 +105,7 @@ h3 {
   text-align: center;
   border: 0.1rem solid #56a5eb;
   margin-bottom: 1rem;
+  /* need to set text decoration to none because by default anchor tags are underlined */
   text-decoration: none;
   color: #56a5eb;
   background-color: white;
