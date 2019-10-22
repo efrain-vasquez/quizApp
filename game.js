@@ -61,7 +61,7 @@ startGame = () => {
   // changes to either one it will affect the other. what we want is a full copy of questions so we use the 
   // spread operator to do that
   availableQuesions = [...questions];
-  console.log(availableQuesions);
+  //console.log(availableQuesions);
   getNewQuestion();
 };
 
@@ -119,9 +119,34 @@ choices.forEach(choice => {
     acceptingAnswers = false;
     const selectedChoice = e.target;
     const selectedAnswer = selectedChoice.dataset["number"];
-    console.log(selectedAnswer);
-    // since we call new question it will load a new question
-    getNewQuestion();
+    //console.log(selectedAnswer);
+    // since one is a string and the other a number cant use === strickly equals
+    //console.log(selectedAnswer === currentQuestion.answer);
+    //here we see we are able to detect if the current answer is correct
+    // based on that we want to figure out which class to apply we will have two different classes
+    // one for correct answers one for incorrect answers
+    console.log(selectedAnswer == currentQuestion.answer);
+    // we set it to incorrect by default
+    // const classToApply = "incorrect";
+      // we check to see if the answer is correct if it is we update the classToApply to correct
+      // if(selectedAnswer == currentQuestion.answer) {
+      //   classToApply = "correct";
+      // }
+    //we are going to do the same thing but with a turnary operator
+    const classToApply = selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+    // now what we want to do is actually apply this class 
+    // we get our selectedChoice and get the parent element. what we are doing here is the selectedChoice
+    // is the choice that is selected but the way to get that is to get the container element 
+    // and the way we get that is we get the parent element, and we will say classList.add()
+    // this is how we apply classes in javascript and we pass in the class to apply (classToApply)
+    selectedChoice.parentElement.classList.add(classToApply);
+    // we need to remove the class but only after a short delay.
+    // we do this with setTimeout()
+    setTimeout(() => {
+      selectedChoice.parentElement.classList.remove(classToApply);
+      // since we call new question it will load a new question
+      getNewQuestion();
+    }, 1000);
   });
 });
 
