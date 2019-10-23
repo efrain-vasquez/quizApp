@@ -4,8 +4,10 @@ const question = document.getElementById("question");
 // and its anything thats prefixed with data basically becomes a property on that node. 
 // so it strips out the data-part and just takes number and whatever value you give it here
 const choices = Array.from(document.getElementsByClassName("choice-text"));
-const questionCounterText = document.getElementById("questionCounter");
+const progressText = document.getElementById("progressText");
 const scoreText = document.getElementById("score");
+const progressBarFull = document.getElementById("progressBarFull");
+
 
 let currentQuestion = {};
 // this is so we can create a delay between answers choosen before we let them answer again
@@ -79,7 +81,15 @@ getNewQuestion = () => {
   //this is an example of using string concatination
   //questionCounterText.innerText = questionCounter + "/" + MAX_QUESTIONS;
   //But we can also do it using ES6 template literals
-  questionCounterText.innerText = `${questionCounter}/${MAX_QUESTIONS}`;
+  progressText.innerText = `Question ${questionCounter}/${MAX_QUESTIONS}`;
+  //everytime we increment our question now we want to update the progress bar
+  //the way we do that is just by setting the width property on that progress bar
+  //.style is how we style our CSS properties
+  //we do a console.log to find out the percentage that each question fills up of the progress bar
+  //console.log((questionCounter / MAX_QUESTIONS)* 100);
+  //this needs to be a value in percent because its CSS
+  progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS)* 100}%`;
+
   // Math.random() by itself will give you a decimal between 0 and 1. 
   // if you want to get an integer out of it you multiply it by a number which gives you a number 
   // between 0 and what you multiplied by. to get only the integer no decimal you do 
