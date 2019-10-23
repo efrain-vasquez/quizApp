@@ -38,3 +38,21 @@
   .incorrect {
     background-color: #dc3545
   }
+
+  /* HUD */
+
+   /* display: flex;  this by default will put things side by side
+   justify-content: space-between; this will space them out  */
+#hud {
+  display: flex;
+  justify-content: space-between;
+}
+
+.hud-prefix {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.hud-main-text {
+  text-align: center;
+}

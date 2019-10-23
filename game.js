@@ -4,7 +4,8 @@ const question = document.getElementById("question");
 // and its anything thats prefixed with data basically becomes a property on that node. 
 // so it strips out the data-part and just takes number and whatever value you give it here
 const choices = Array.from(document.getElementsByClassName("choice-text"));
-
+const questionCounterText = document.getElementById("questionCounter");
+const scoreText = document.getElementById("score");
 
 let currentQuestion = {};
 // this is so we can create a delay between answers choosen before we let them answer again
@@ -73,6 +74,12 @@ getNewQuestion = () => {
     return window.location.assign("/end.html");
   }
   questionCounter++;
+  //after we update our questionCounter lets update our questionCounterText dynamically
+  //so we can show them what number of question they are on 
+  //this is an example of using string concatination
+  //questionCounterText.innerText = questionCounter + "/" + MAX_QUESTIONS;
+  //But we can also do it using ES6 template literals
+  questionCounterText.innerText = `${questionCounter}/${MAX_QUESTIONS}`;
   // Math.random() by itself will give you a decimal between 0 and 1. 
   // if you want to get an integer out of it you multiply it by a number which gives you a number 
   // between 0 and what you multiplied by. to get only the integer no decimal you do 
@@ -125,7 +132,7 @@ choices.forEach(choice => {
     //here we see we are able to detect if the current answer is correct
     // based on that we want to figure out which class to apply we will have two different classes
     // one for correct answers one for incorrect answers
-    console.log(selectedAnswer == currentQuestion.answer);
+    //console.log(selectedAnswer == currentQuestion.answer);
     // we set it to incorrect by default
     // const classToApply = "incorrect";
       // we check to see if the answer is correct if it is we update the classToApply to correct
@@ -134,6 +141,12 @@ choices.forEach(choice => {
       // }
     //we are going to do the same thing but with a turnary operator
     const classToApply = selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+      //now we will call the function incrementScore if the user answered correctly
+      if(classToApply == "correct") {
+        //we call incrementScore and tell it to increment by the value of the variable CORRECT_BONUS
+        incrementScore(CORRECT_BONUS);
+      }
+
     // now what we want to do is actually apply this class 
     // we get our selectedChoice and get the parent element. what we are doing here is the selectedChoice
     // is the choice that is selected but the way to get that is to get the container element 
@@ -149,5 +162,13 @@ choices.forEach(choice => {
     }, 1000);
   });
 });
+
+//here we will check to see if the user got the question correct 
+//and then incrementes the score 
+//and then updates the scoreText
+incrementScore = num => {
+  score += num;
+  scoreText.innerText = score;
+};
 
 startGame();
