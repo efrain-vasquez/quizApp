@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Congrats!</title>
+    <!-- we want to include the app.css for styling -->
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <div class="container">
+        <!-- the page will have an id of end -->
+      <div id="end" class="flex-center flex-column">
+        <h1 id="finalScore"></h1>
+        <!-- this form is for the user to submit there score if they want to -->
+        <form>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="username"
+          />
+          <!-- this button is to submit the form 
+            we need an id so we can reference it later-->
+         <!-- we set it to default so it can not be clicked unless an action happens -->
+          <button
+            type="submit"
+            class="btn"
+            id="saveScoreBtn"
+            onclick="saveHighScore(event)"
+            disabled
+          >
+            Save
+          </button>
+        </form>
+        <!-- we add two anchor tag buttons to tell the user where to go 
+        one to play the game again
+        the other to go home -->
+        <a class="btn" href="/game.html">Play Again</a>
+        <a class="btn" href="/">Go Home</a>
+      </div>
+    </div>
+    <!-- we want include a reference to the end.js for our javascript -->
+    <script src="end.js"></script>
+  </body>
+</html>
