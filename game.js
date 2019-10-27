@@ -72,6 +72,8 @@ getNewQuestion = () => {
   // this is so we wont get an error when no questions left or given the user all the questions we wnat too
   // we end the quiz by going to the end page
   if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+    //when we end the game we want to save the players score so we can access it on the end screen
+    localStorage.setItem("mostRecentScore", score);
     //go to the end page
     return window.location.assign("/end.html");
   }
