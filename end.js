@@ -26,7 +26,7 @@ const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 const MAX_HIGH_SCORES = 5;
 //we log it to be sure to get a reference to all these things
 //if first time playing the game it will be empty so you will get null back for the console.log
-console.log("highScores");
+//sconsole.log("highScores");
 //we set the finalScore using the value from mostRecentScore
 finalScore.innerText = mostRecentScore;
 
@@ -88,7 +88,7 @@ saveHighScore = e => {
   // })
   // console.log(highScores);
   highScores.sort((a, b) => b.score - a.score);
-  //this is just saying at index 5 start cutting off everything after that
+  //this is just saying at index 5 start cutting off everything after and including that index
   highScores.splice(5);
   //we need to update localStorage with our highScores 
   //but we need to strigify this into json so it can be saved as a string into our highScores

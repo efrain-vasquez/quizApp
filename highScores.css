@@ -1,0 +1,20 @@
+
+/* list-style: none; gets rid of bullet points */
+/* by default item in there have padding to the left because of those bullet points
+so we do padding-left: 0; to get rid of that 
+we do margin-bottom: 4rem; to give padding on bottom from go home button */
+#highScoresList {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 4rem;
+  }
+  
+  .high-score {
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* this adds a hover effect to each high score */
+  .high-score:hover {
+    transform: scale(1.025);
+  }
