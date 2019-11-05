@@ -20,32 +20,69 @@ let questionCounter = 0;
 // as we use them so we can always find a unique question to give the user.
 let availableQuesions = [];
 // dumby data
-let questions = [
-  {
-    question: "Inside which HTML element do we put the JavaScript??",
-    choice1: "<script>",
-    choice2: "<javascript>",
-    choice3: "<js>",
-    choice4: "<scripting>",
-    answer: 1
-  },
-  {
-    question: "What is the correct syntax for referring to an external script called 'xxx.js'?",
-    choice1: "<script href='xxx.js'>",
-    choice2: "<script name='xxx.js'>",
-    choice3: "<script src='xxx.js'>",
-    choice4: "<script file='xxx.js'>",
-    answer: 3
-  },
-  {
-    question: " How do you write 'Hello World' in an alert box?",
-    choice1: "msgBox('Hello World');",
-    choice2: "alertBox('Hello World');",
-    choice3: "msg('Hello World');",
-    choice4: "alert('Hello World');",
-    answer: 4
-  }
-];
+let questions = [];
+
+//we start with an empty array of questions
+//we can use fetch to pull questions from an API 
+//here we are pulling from a local file but it works basically the same way
+//we fetch questions from our local file and it returns a promise so we use .then
+//lets console.log the res to see what we get, it will skip over our application
+//if it is an empty array of questions. 
+// fetch("questions.json").then(res => {
+  //
+//   console.log(res);
+//   return res.json();
+// });
+
+//if this is the case on the console select Preserve log
+//and go to play again this will navigate away this screen but it can still show you what it loged out
+//it will log something that looks basically like an HTTP response
+//but what you want out of that is a json version of the data
+//so inside of a promise you can return a promise
+fetch(
+  "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"
+)
+  //return res.json() will get out of the HTTP response it will get the body and convert it into json
+  .then(res => {
+    return res.json();
+  })
+  //and we can return that inside of this promise which allows us to do a .then on that
+  .then(loadedQuestions => {
+    //this should be the actual converted json data that we want
+    //console.log(loadedQuestions);
+    console.log(loadedQuestions.results);
+    //our questions we will get back from 
+    questions = loadedQuestions.results.map(loadedQuestion => {
+      const formattedQuestion = {
+        question: loadedQuestion.question
+      };
+
+      const answerChoices = [...loadedQuestion.incorrect_answers];
+      formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
+      answerChoices.splice(
+        formattedQuestion.answer - 1,
+        0,
+        loadedQuestion.correct_answer
+      );
+
+      answerChoices.forEach((choice, index) => {
+        formattedQuestion["choice" + (index + 1)] = choice;
+      });
+
+      return formattedQuestion;
+    });
+    //instead of calling start game immediately at the bottom of this file 
+    //i want to wait until i have my questions back
+    startGame();
+  })
+  //when you make a request with fetch or other things that return promises
+  //you want to handle the catch which is the error senario
+  //if you get an error such as typing in wrong path you can error out that error to the console
+  //so if you look at the console it will throw an error and give you an error message
+  //this is helpful if something goes wrong you know what to do 
+  .catch(err => {
+    console.error(err);
+  });
 
 //CONSTANTS
 //points for a correct answer
@@ -182,5 +219,3 @@ incrementScore = num => {
   score += num;
   scoreText.innerText = score;
 };
-
-startGame();
