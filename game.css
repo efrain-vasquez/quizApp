@@ -69,3 +69,32 @@
   background-color: #56a5eb;
   width: 0%;
 }
+
+/* LOADER: we want to make a spinning circle */
+#loader {
+  border: 1.6rem solid white;
+  /* without this border-radius being 50 you would have a square */
+  border-radius: 50%;
+  /* we override our top-border color from white to this blue */
+  border-top: 1.6rem solid #56a5eb;
+  width: 12rem;
+  height: 12rem;
+  /* this animation causes it to spin 
+  its a spin animation that lasts two seconds 
+  and it stays constant from beginning to end so we use linear
+  and it spins infinitly so we use infinite
+  loader example: w3schools.com How To - CSS Loader
+  */
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  /* this is our start deg = degrees */
+  0% {
+    transform: rotate(0deg);
+  }
+  /* this is our finish */
+  100% {
+    transform: rotate(360deg);
+  }
+}

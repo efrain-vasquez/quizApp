@@ -7,7 +7,8 @@ const choices = Array.from(document.getElementsByClassName("choice-text"));
 const progressText = document.getElementById("progressText");
 const scoreText = document.getElementById("score");
 const progressBarFull = document.getElementById("progressBarFull");
-
+const loader = document.getElementById("loader");
+const game = document.getElementById("game");
 
 let currentQuestion = {};
 // this is so we can create a delay between answers choosen before we let them answer again
@@ -148,6 +149,11 @@ startGame = () => {
   availableQuesions = [...questions];
   //console.log(availableQuesions);
   getNewQuestion();
+  //this displays both the loader and the questions once they are loaded
+  game.classList.remove("hidden");
+  //this basically swaps out the loader with the questions once they are loaded
+  //by hidding the loader
+  loader.classList.add("hidden");
 };
 
 getNewQuestion = () => {
