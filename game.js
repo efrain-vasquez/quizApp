@@ -28,17 +28,36 @@ let questions = [];
 //we fetch questions from our local file and it returns a promise so we use .then
 //lets console.log the res to see what we get, it will skip over our application
 //if it is an empty array of questions. 
-// fetch("questions.json").then(res => {
-  //
-//   console.log(res);
-//   return res.json();
-// });
-
 //if this is the case on the console select Preserve log
 //and go to play again this will navigate away this screen but it can still show you what it loged out
 //it will log something that looks basically like an HTTP response
 //but what you want out of that is a json version of the data
 //so inside of a promise you can return a promise
+// fetch("questions.json")
+    //return res.json() will get out of the HTTP response it will get the body and convert it into json
+//   .then(res => {
+//     return res.json();
+//   })
+   //and we can return that inside of this promise which allows us to do a .then on that
+//   .then(loadedQuestions => {
+    //this should be the actual converted json data that we want
+//     console.log(loadedQuestions);
+//     questions = loadedQuestions;
+    //instead of calling start game immediately at the bottom of this file 
+    //i want to wait until i have my questions back
+//     startGame();
+//   })
+  //when you make a request with fetch or other things that return promises
+  //you want to handle the catch which is the error senario
+  //if you get an error such as typing in wrong path you can error out that error to the console
+  //so if you look at the console it will throw an error and give you an error message
+  //this is helpful if something goes wrong you know what to do 
+//   .catch(err => {
+//     console.error(err);
+//   });
+
+
+
 fetch(
   "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"
 )
@@ -49,22 +68,48 @@ fetch(
   //and we can return that inside of this promise which allows us to do a .then on that
   .then(loadedQuestions => {
     //this should be the actual converted json data that we want
-    //console.log(loadedQuestions);
     console.log(loadedQuestions.results);
-    //our questions we will get back from 
+    //our questions we will get back from the questions that we just loaded.
+    //this is done by basically transforming each of these questions
+    //into the format that we work with in our application
+    //so the way we do this is with map() because it allows us to iterate through the array of questions
+    //and transform it into something else 
+
+    //the formattedQuestion is what we will return out of this map()
+    //so every time we map thru we are going to get the original question
+    //we are going to format that question into the format that we need and return that
+    //then we will have the array of questions in the right format that we need them to be in
     questions = loadedQuestions.results.map(loadedQuestion => {
+      //first we create a formatedQuestion and it will be an object with a question property
+      //and its value is coming from the loadedQuestion.question
       const formattedQuestion = {
         question: loadedQuestion.question
       };
-
+      //we want to get the answer choices and use the spread operator from loadedQuestion.incorrect_answers
+      //this will give us an array of 3 incorrect answers
       const answerChoices = [...loadedQuestion.incorrect_answers];
+      //what we eventually need is 4 answer choices and then the correct answer in a random position
+      //what we do is set the formattedQuestion.answer to a random number between 0 and 3
+      //this gives us a random index between 0 and 3 then add 1 because
+      //we want the correct answer to randomly be one of the choices
+      //so basically we go ahead and decide which choice is my answer and
       formattedQuestion.answer = Math.floor(Math.random() * 3) + 1;
+      //then we put that answer into my answer choices array in the right spot 
       answerChoices.splice(
+        //we do -1 because our answer choices are not zero based indexes and we need zero based index
         formattedQuestion.answer - 1,
+        //we are not going to remove any elements
         0,
+        //then we put in loadedQuestion.correct_answer
         loadedQuestion.correct_answer
+        //so at this point answerChoices should have all of our answer choices in them with 
+        //the correct answer in a random position
       );
-
+      //the last thing we will do is iterate through the answerChoices with a forEach
+      //so we can get a reference to each choice and the index that it is at
+      //and set them as answer choice 1, 2, 3, and 4 on the formattedQuestion
+      //so to do that we dynamically get that property so choice plus whatever that index was plus 1
+      //will be assigned to choice.
       answerChoices.forEach((choice, index) => {
         formattedQuestion["choice" + (index + 1)] = choice;
       });
